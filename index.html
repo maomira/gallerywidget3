@@ -3,183 +3,192 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>CodePen - Full-Screen Responsive Image Slider</title>
-  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css'>
-  <link rel="stylesheet" href="./style.css">
-<style>
-  @import url("https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap");
+  <title>Parallax Image Slider</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap");
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-body {
-  font-family: "Lexend", sans-serif;
-  background-color: #362a2b;
-  color: #e5ebf3;
-}
+    body {
+      font-family: "Lexend", sans-serif;
+      background-color: #362a2b;
+      color: #e5ebf3;
+    }
 
-.slider {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-}
+    .slider-container {
+      position: relative;
+      display: flex;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
 
-.slide {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 50%; /* Display two images at a time */
-  height: 100%;
-  opacity: 0;
-  transition: opacity 0.4s ease-in-out;
-}
+    .parallax-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 200%; /* Double the width to accommodate two images per slide */
+      height: 100%;
+      background-image: url('1.png'), url('2.png'), url('3.png'), url('4.png'), url('5.png'), url('6.png'), url('7.png');
+      background-repeat: no-repeat;
+      background-size: 50% 100%; /* Each image takes 50% of the width */
+      background-position: left, right, left, right, left, right, left; /* Place images alternately */
+      animation: parallaxAnimation 20s linear infinite; /* Change the duration as needed */
+    }
 
-.slide.current {
-  opacity: 1;
-}
+    @keyframes parallaxAnimation {
+      0%, 100% {
+        transform: translateX(0);
+      }
+      20%, 40% {
+        transform: translateX(-50%); /* Move to the left to display the second image */
+      }
+      60%, 80% {
+        transform: translateX(0); /* Move back to display the first image */
+      }
+    }
 
-.slide:nth-child(1) {
-  background: url("1.png") no-repeat center top/cover;
-}
+    .slider-wrapper {
+      display: flex;
+      transition: transform 0.3s ease;
+      width: 100%; /* Ensure the wrapper takes the full width */
+    }
 
-.slide:nth-child(2) {
-  background: url("2.png") no-repeat center top/cover;
-}
+    .slider-item {
+      flex: 0 0 50%; /* Each slide occupies 50% of the wrapper width */
+    }
 
-.slide:nth-child(3) {
-  background: url("3.png") no-repeat center top/cover;
-}
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.4s ease-in-out;
+    }
 
-.slide:nth-child(4) {
-  background: url("4.png") no-repeat center top/cover;
-}
+    .slide.current {
+      opacity: 1;
+    }
 
-.slide:nth-child(5) {
-  background: url("5.png") no-repeat center top/cover;
-}
+    .buttons button#prev {
+      position: absolute;
+      top: 50%;
+      left: 1rem;
+    }
 
-.slide:nth-child(6) {
-  background: url("6.png") no-repeat center top/cover;
-}
+    .buttons button#next {
+      position: absolute;
+      top: 50%;
+      right: 1rem;
+    }
 
-.slide:nth-child(7) {
-  background: url("7.png") no-repeat center top/cover;
-}
+    .buttons button {
+      border: 2px solid #e5ebf3;
+      background-color: transparent;
+      color: #e5ebf3;
+      cursor: pointer;
+      padding: 13px 15px;
+      border-radius: 50%;
+      outline: none;
+    }
 
-.buttons button#prev {
-  position: absolute;
-  top: 50%;
-  left: 1rem;
-}
+    .buttons button:hover {
+      background-color: #e5ebf3;
+      color: #362a2b;
+    }
 
-.buttons button#next {
-  position: absolute;
-  top: 50%;
-  right: 1rem;
-}
+    @media (min-width: 640px) and (min-height: 640px) {
+      .slide .content {
+        bottom: 70px;
+        left: -600px;
+        width: 600px;
+        padding: 2rem;
+        line-height: 1.6;
+      }
 
-.buttons button {
-  border: 2px solid #e5ebf3;
-  background-color: transparent;
-  color: #e5ebf3;
-  cursor: pointer;
-  padding: 13px 15px;
-  border-radius: 50%;
-  outline: none;
-}
+      .slide .content h1 {
+        font-size: 2rem;
+      }
 
-.buttons button:hover {
-  background-color: #e5ebf3;
-  color: #362a2b;
-}
-
-@media (min-width: 640px) and (min-height: 640px) {
-  .slide .content {
-    bottom: 70px;
-    left: -600px;
-    width: 600px;
-    padding: 2rem;
-    line-height: 1.6;
-  }
-
-  .slide .content h1 {
-    font-size: 2rem;
-  }
-
-  .slide.current .content {
-    transform: translateX(600px);
-  }
-}
-</style>
+      .slide.current .content {
+        transform: translateX(600px);
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <!-- partial:index.partial.html -->
-  <div class="slider">
-    <div class="slide current"></div>
-    <div class="slide"></div>
-    <div class="slide"></div>
-    <div class="slide"></div>
-    <div class="slide"></div>
-    <div class="slide"></div>
-    <div class="slide"></div>
+  <div class="slider-container">
+    <div class="parallax-background"></div>
+    <div class="slider-wrapper" id="sliderWrapper">
+      <!-- The images will be loaded here dynamically -->
+    </div>
   </div>
+
   <div class="buttons">
     <button id="prev"><i class="fas fa-arrow-left"></i></button>
     <button id="next"><i class="fas fa-arrow-right"></i></button>
   </div>
-  <!-- partial -->
+
   <script>
-    const slides = document.querySelectorAll(".slide");
-    const nextButton = document.getElementById("next");
-    const prevButton = document.getElementById("prev");
-    const auto = true;
-    const intervalTime = 5000;
-    let slideInterval;
+    // Your list of image URLs for the slider (replace these with your image URLs)
+    const imageUrls = [
+      '1.png',
+      '2.png',
+      '3.png',
+      '4.png',
+      '5.png',
+      '6.png',
+      '7.png',
+    ];
 
-    const nextSlide = () => {
-      const current = document.querySelector(".current");
-      current.classList.remove("current");
-      const nextSlide = current.nextElementSibling || slides[0];
-      nextSlide.classList.add("current");
-      const nextNextSlide = nextSlide.nextElementSibling || slides[0];
-      nextNextSlide.classList.add("current");
-    };
+    // Function to create and append the image elements to the slider
+    function populateSlider() {
+      const sliderWrapper = document.getElementById('sliderWrapper');
+      sliderWrapper.innerHTML = ''; // Clear existing content
 
-    const prevSlide = () => {
-      const current = document.querySelector(".current");
-      current.classList.remove("current");
-      const prevSlide = current.previousElementSibling || slides[slides.length - 1];
-      prevSlide.classList.add("current");
-      const prevPrevSlide = prevSlide.previousElementSibling || slides[slides.length - 1];
-      prevPrevSlide.classList.add("current");
-    };
-
-    nextButton.addEventListener("click", () => {
-      nextSlide();
-      if (auto) {
-        clearInterval(slideInterval);
-        slideInterval = setInterval(nextSlide, intervalTime);
+      // Combine the image URLs to create pairs for each slide
+      const pairedImageUrls = [];
+      for (let i = 0; i < imageUrls.length; i += 2) {
+        const pair = [imageUrls[i], imageUrls[i + 1] || ''];
+        pairedImageUrls.push(pair);
       }
-    });
-    prevButton.addEventListener("click", () => {
-      prevSlide();
-      if (auto) {
-        clearInterval(slideInterval);
-        slideInterval = setInterval(nextSlide, intervalTime);
-      }
-    });
 
-    if (auto) {
-      slideInterval = setInterval(nextSlide, intervalTime);
+      pairedImageUrls.forEach((pair) => {
+        const slide = document.createElement('div');
+        slide.className = 'slider-item';
+
+        const img1 = document.createElement('img');
+        img1.src = pair[0];
+        img1.alt = 'Image 1';
+        slide.appendChild(img1);
+
+        const img2 = document.createElement('img');
+        img2.src = pair[1];
+        img2.alt = 'Image 2';
+        slide.appendChild(img2);
+
+        sliderWrapper.appendChild(slide);
+      });
     }
 
-  </script>
+    // Load images when the page loads
+    document.addEventListener('DOMContentLoaded', () => {
+      populateSlider();
+    });
 
+    // If you want to add more images dynamically at runtime, you can call populateSlider() again
+    // with the updated imageUrls array.
+    // Example: imageUrls.push('8.png'); populateSlider();
+
+    // You can also implement navigation buttons and logic to move between images in the slider.
+  </script>
 </body>
 
 </html>
