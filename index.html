@@ -3,7 +3,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Parallax Image Slider</title>
+  <title>Image Slider</title>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css'>
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap");
 
@@ -21,45 +22,18 @@
 
     .slider-container {
       position: relative;
-      display: flex;
-      overflow: hidden;
       width: 100vw;
       height: 100vh;
-    }
-
-    .parallax-background {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 200%; /* Double the width to accommodate two images per slide */
-      height: 100%;
-      background-image: url('1.png'), url('2.png'), url('3.png'), url('4.png'), url('5.png'), url('6.png'), url('7.png');
-      background-repeat: no-repeat;
-      background-size: 50% 100%; /* Each image takes 50% of the width */
-      background-position: left, right, left, right, left, right, left; /* Place images alternately */
-      animation: parallaxAnimation 20s linear infinite; /* Change the duration as needed */
-    }
-
-    @keyframes parallaxAnimation {
-      0%, 100% {
-        transform: translateX(0);
-      }
-      20%, 40% {
-        transform: translateX(-50%); /* Move to the left to display the second image */
-      }
-      60%, 80% {
-        transform: translateX(0); /* Move back to display the first image */
-      }
+      overflow: hidden;
     }
 
     .slider-wrapper {
       display: flex;
       transition: transform 0.3s ease;
-      width: 100%; /* Ensure the wrapper takes the full width */
     }
 
     .slider-item {
-      flex: 0 0 50%; /* Each slide occupies 50% of the wrapper width */
+      flex: 0 0 100%;
     }
 
     .slide {
@@ -125,9 +99,22 @@
 
 <body>
   <div class="slider-container">
-    <div class="parallax-background"></div>
     <div class="slider-wrapper" id="sliderWrapper">
-      <!-- The images will be loaded here dynamically -->
+      <div class="slider-item">
+        <div class="slide current" style="background: url('1.png') no-repeat center top/cover;"></div>
+        <div class="content">
+          <h1>Slide 1</h1>
+          <p>This is the content of Slide 1.</p>
+        </div>
+      </div>
+      <div class="slider-item">
+        <div class="slide" style="background: url('2.png') no-repeat center top/cover;"></div>
+        <div class="content">
+          <h1>Slide 2</h1>
+          <p>This is the content of Slide 2.</p>
+        </div>
+      </div>
+      <!-- Add more slider items as needed for additional images -->
     </div>
   </div>
 
@@ -137,57 +124,45 @@
   </div>
 
   <script>
-    // Your list of image URLs for the slider (replace these with your image URLs)
-    const imageUrls = [
-      '1.png',
-      '2.png',
-      '3.png',
-      '4.png',
-      '5.png',
-      '6.png',
-      '7.png',
-    ];
+    const slides = document.querySelectorAll(".slide");
+    const nextButton = document.getElementById("next");
+    const prevButton = document.getElementById("prev");
+    const auto = true;
+    const intervalTime = 5000;
+    let slideInterval;
 
-    // Function to create and append the image elements to the slider
-    function populateSlider() {
-      const sliderWrapper = document.getElementById('sliderWrapper');
-      sliderWrapper.innerHTML = ''; // Clear existing content
+    const nextSlide = () => {
+      const current = document.querySelector(".current");
+      current.classList.remove("current");
+      const nextSlide = current.nextElementSibling || slides[0];
+      nextSlide.classList.add("current");
+    };
 
-      // Combine the image URLs to create pairs for each slide
-      const pairedImageUrls = [];
-      for (let i = 0; i < imageUrls.length; i += 2) {
-        const pair = [imageUrls[i], imageUrls[i + 1] || ''];
-        pairedImageUrls.push(pair);
+    const prevSlide = () => {
+      const current = document.querySelector(".current");
+      current.classList.remove("current");
+      const prevSlide = current.previousElementSibling || slides[slides.length - 1];
+      prevSlide.classList.add("current");
+    };
+
+    nextButton.addEventListener("click", () => {
+      nextSlide();
+      if (auto) {
+        clearInterval(slideInterval);
+        slideInterval = setInterval(nextSlide, intervalTime);
       }
-
-      pairedImageUrls.forEach((pair) => {
-        const slide = document.createElement('div');
-        slide.className = 'slider-item';
-
-        const img1 = document.createElement('img');
-        img1.src = pair[0];
-        img1.alt = 'Image 1';
-        slide.appendChild(img1);
-
-        const img2 = document.createElement('img');
-        img2.src = pair[1];
-        img2.alt = 'Image 2';
-        slide.appendChild(img2);
-
-        sliderWrapper.appendChild(slide);
-      });
-    }
-
-    // Load images when the page loads
-    document.addEventListener('DOMContentLoaded', () => {
-      populateSlider();
+    });
+    prevButton.addEventListener("click", () => {
+      prevSlide();
+      if (auto) {
+        clearInterval(slideInterval);
+        slideInterval = setInterval(nextSlide, intervalTime);
+      }
     });
 
-    // If you want to add more images dynamically at runtime, you can call populateSlider() again
-    // with the updated imageUrls array.
-    // Example: imageUrls.push('8.png'); populateSlider();
-
-    // You can also implement navigation buttons and logic to move between images in the slider.
+    if (auto) {
+      slideInterval = setInterval(nextSlide, intervalTime);
+    }
   </script>
 </body>
 
