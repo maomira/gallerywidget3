@@ -66,8 +66,8 @@
       <div class="slide"><img src="4.png" alt="Image 4"></div>
     </div>
     <div class="buttons">
-      <button id="prev1"><i class="fas fa-arrow-left"></i></button>
-      <button id="next1"><i class="fas fa-arrow-right"></i></button>
+      <button class="prev"><i class="fas fa-arrow-left"></i></button>
+      <button class="next"><i class="fas fa-arrow-right"></i></button>
     </div>
   </div>
 
@@ -80,8 +80,8 @@
       <div class="slide"><img src="4.png" alt="Image 4"></div>
     </div>
     <div class="buttons">
-      <button id="prev2"><i class="fas fa-arrow-left"></i></button>
-      <button id="next2"><i class="fas fa-arrow-right"></i></button>
+      <button class="prev"><i class="fas fa-arrow-left"></i></button>
+      <button class="next"><i class="fas fa-arrow-right"></i></button>
     </div>
   </div>
 
@@ -90,8 +90,8 @@
       const sliderContainer = document.querySelectorAll(".slider-container")[sliderIndex];
       const slider = sliderContainer.querySelector(".slider");
       const slides = slider.querySelectorAll(".slide");
-      const prevButton = sliderContainer.querySelector(`#prev${sliderIndex + 1}`);
-      const nextButton = sliderContainer.querySelector(`#next${sliderIndex + 1}`);
+      const prevButton = sliderContainer.querySelector(".prev");
+      const nextButton = sliderContainer.querySelector(".next");
       let currentSlide = 0;
 
       function goToSlide(slideIndex) {
