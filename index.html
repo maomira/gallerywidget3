@@ -149,7 +149,6 @@
   </div>
 
   <script>
-    // Function to handle slider transitions for both sliders
     function handleSlider(slides, nextButton, prevButton, auto, intervalTime) {
       const slidesList = document.querySelectorAll(slides + " .slide");
       let currentSlideIndex = 0;
@@ -175,9 +174,9 @@
     }
 
     // Initialize first slider
-    handleSlider(".slider:first-child", "#next", "#prev", true, 5000);
+    handleSlider(".slider:first-of-type", "#next", "#prev", true, 5000);
     // Initialize second slider
-    handleSlider(".slider:last-child", "#next2", "#prev2", true, 5000);
+    handleSlider(".slider:last-of-type", "#next2", "#prev2", true, 5000);
   </script>
 </body>
 
